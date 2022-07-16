@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { connect, sendMsg} from "./websocket";
 
 function App() {
   const [data, setData] = useState({ winner: { winner: 45, positions: [] }, board: [], movesLeft: true, roomId: "", turn: ""});
   const [trColor, setTrColor] = useState({ color: ''})
 
   useEffect( () => {
+      connect();
     const fetchData = async () => {
       try {
         const response = await fetch("http://localhost:8080",{mode:'cors'});
@@ -22,11 +24,15 @@ function App() {
 
 
   }, []);
+  function send() {
+     sendMsg("Hello");
+  }
   function mapSymbol(ascii: number): string {
       return String.fromCharCode(ascii);
   }
   async function handleClick(col: number, row: number) {
       console.log(`user clicked (${col}, ${row}, ${data.roomId})`)
+      sendMsg(`user clicked (${col}, ${row}, ${data.roomId})`);
       try {
           const requestOptions: any = {
               method: 'POST',

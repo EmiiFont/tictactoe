@@ -10,4 +10,7 @@ require (
 	go.etcd.io/bbolt v1.3.6
 )
 
-require golang.org/x/sys v0.0.0-20220708085239-5a0f0661e09d // indirect
+require (
+	github.com/gorilla/websocket v1.5.0 // indirect
+	golang.org/x/sys v0.0.0-20220708085239-5a0f0661e09d // indirect
+)
