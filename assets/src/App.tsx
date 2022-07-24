@@ -3,6 +3,15 @@ import logo from './logo.svg';
 import './App.css';
 import { connect, sendMsg} from "./websocket";
 
+function BottomWidget() {
+    return <div className="pt-8 text-base font-semibold leading-7">
+        <button
+            className="bg-sky-500 hover:bg-sky-700 px-5 py-2.5 text-sm leading-5 rounded-md font-semibold text-white">New
+            game
+        </button>
+    </div>;
+}
+
 function App() {
   const [data, setData] = useState({ winner: { winner: 45, positions: [] }, board: [], movesLeft: true, roomId: "", turn: ""});
   const [trColor, setTrColor] = useState({ color: ''})
@@ -80,8 +89,9 @@ function App() {
                                 <tbody>
                                 {data.board.map((row: [], i) => (
                                     <tr key={i} style={trColor}>
-                                        { row.map((col, j) => (
-                                            <td key={j} className="border w-40 h-40 text-black-700 text-center text-4xl" style={colorWinner(data.winner, i,j)}
+                                        {row.map((col, j) => (
+                                            <td key={j} className="border w-40 h-40 text-black-700 text-center text-4xl"
+                                                style={colorWinner(data.winner, i, j)}
                                                 onClick={(e) => handleClick(i, j)}>
                                                 {
                                                     data.board[i][j] === 95 ? " " :
@@ -94,9 +104,7 @@ function App() {
                                 </tbody>
                             </table>
                         </div>
-                        <div className="pt-8 text-base font-semibold leading-7">
-                            <button className="bg-sky-500 hover:bg-sky-700 px-5 py-2.5 text-sm leading-5 rounded-md font-semibold text-white">New game</button>
-                        </div>
+                        <BottomWidget/>
                     </div>
                 </div>
             </div>

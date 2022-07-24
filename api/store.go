@@ -1,4 +1,4 @@
-package main
+package api
 
 import (
 	json2 "encoding/json"

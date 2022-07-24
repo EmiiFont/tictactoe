@@ -1,4 +1,4 @@
-package main
+package api
 
 var player1 = 'O'
 var player2 = 'X'

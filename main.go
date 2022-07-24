@@ -5,6 +5,8 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
 	"net/http"
+	"tictactoe/api"
+	"tictactoe/pkg/websocket"
 )
 
 func main() {
@@ -13,9 +15,9 @@ func main() {
 		AllowedOrigins: []string{"https://*", "http://*"},
 	}))
 	r.Use(middleware.Logger)
-	r.Get("/", GetBoard)
-	r.Post("/move", ReceiveMove)
-	r.HandleFunc("/ws", ServeWs)
+	r.Get("/", api.GetBoard)
+	r.Post("/move", api.ReceiveMove)
+	r.HandleFunc("/ws", websocket.ServeWs)
 	err := http.ListenAndServe(":8080", r)
 	if err != nil {
 		return

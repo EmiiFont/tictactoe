@@ -1,8 +1,9 @@
-package main
+package websocket
 
 import (
 	"fmt"
 	"github.com/gorilla/websocket"
+	"io"
 	"log"
 	"net/http"
 )
@@ -41,6 +42,31 @@ func reader(conn *websocket.Conn) {
 	}
 }
 
+func Writter(conn *websocket.Conn) {
+	for {
+		fmt.Println("Writing message")
+		messageType, r, err := conn.NextReader()
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		w, err := conn.NextWriter(messageType)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		if _, err := io.Copy(w, r); err != nil {
+			fmt.Println(err)
+			return
+		}
+
+		if err := w.Close(); err != nil {
+			fmt.Println(err)
+			return
+		}
+	}
+}
+
 // ServeWs define our WebSocket endpoint
 func ServeWs(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(r.Host)
@@ -53,5 +79,6 @@ func ServeWs(w http.ResponseWriter, r *http.Request) {
 	}
 	// listen indefinitely for new messages coming
 	// through on our WebSocket connection
+	//go Writter(ws)
 	reader(ws)
 }
