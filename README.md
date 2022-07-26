@@ -15,10 +15,10 @@ yarn start
 
 Technologies I was working with:
 
-- API:
-  go-chi
-  read/write to key-value store using bolt-db
+### API:
+  - go-chi
+  - read/write to key-value store using bolt-db
 
-- Client:
-  react
-  tailwind-css
+### Client:
+  - react
+  - tailwind-css
