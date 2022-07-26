@@ -18,6 +18,7 @@ Technologies I was working with:
 ### API:
   - go-chi
   - read/write to key-value store using bolt-db
+  - websockets
 
 ### Client:
   - react
