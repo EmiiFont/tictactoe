@@ -78,3 +78,8 @@ func GetBoard(w http.ResponseWriter, r *http.Request) {
 
 	w.Write(jsonBoard)
 }
+
+func NewGame(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.Write([]byte(uuid.NewString()))
+}

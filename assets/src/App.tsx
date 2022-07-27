@@ -3,9 +3,9 @@ import logo from './logo.svg';
 import './App.css';
 import { connect, sendMsg} from "./websocket";
 
-function BottomWidget() {
+function BottomWidget(props: any) {
     return <div className="pt-8 text-base font-semibold leading-7">
-        <button
+        <button onClick={props.newGame}
             className="bg-sky-500 hover:bg-sky-700 px-5 py-2.5 text-sm leading-5 rounded-md font-semibold text-white">New
             game
         </button>
@@ -38,6 +38,20 @@ function App() {
   }
   function mapSymbol(ascii: number): string {
       return String.fromCharCode(ascii);
+  }
+
+  async function newGame() {
+      try {
+          const requestOptions: any = {
+              method: 'GET',
+              headers: { 'Content-Type': 'application/json' },
+          };
+          const response = await fetch("http://localhost:8080/newGame", requestOptions);
+          const json = await response.json();
+          window.location.href = `http://localhost:8080/ws/${json}`
+      } catch (error) {
+          console.log("error", error);
+      }
   }
   async function handleClick(col: number, row: number) {
       console.log(`user clicked (${col}, ${row}, ${data.roomId})`)

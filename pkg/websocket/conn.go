@@ -2,8 +2,9 @@ package websocket
 
 import (
 	"fmt"
+	"github.com/go-chi/chi/v5"
+	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
-	"io"
 	"log"
 	"net/http"
 )
@@ -21,64 +22,25 @@ var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool { return true },
 }
 
-// define a reader which will listen for
-// new messages being sent to our WebSocket
-// endpoint
-func reader(conn *websocket.Conn) {
-	for {
-		// read in a message
-		messageType, p, err := conn.ReadMessage()
-		if err != nil {
-			log.Println(err)
-			return
-		}
-		// print out that message for clarity
-		fmt.Println(string(p))
-
-		if err := conn.WriteMessage(messageType, p); err != nil {
-			log.Println(err)
-			return
-		}
-	}
-}
-
-func Writter(conn *websocket.Conn) {
-	for {
-		fmt.Println("Writing message")
-		messageType, r, err := conn.NextReader()
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-		w, err := conn.NextWriter(messageType)
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-		if _, err := io.Copy(w, r); err != nil {
-			fmt.Println(err)
-			return
-		}
-
-		if err := w.Close(); err != nil {
-			fmt.Println(err)
-			return
-		}
-	}
-}
-
 // ServeWs define our WebSocket endpoint
-func ServeWs(w http.ResponseWriter, r *http.Request) {
+func ServeWs(pool *Pool, w http.ResponseWriter, r *http.Request) {
 	fmt.Println(r.Host)
-
+	roomId := chi.URLParam(r, "roomId")
 	// upgrade this connection to a WebSocket
 	// connection
 	ws, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println(err)
 	}
+	udi, _ := uuid.Parse(roomId)
+	client := &Client{
+		Conn:   ws,
+		Pool:   pool,
+		RoomId: udi,
+	}
+
+	pool.Register <- client
 	// listen indefinitely for new messages coming
 	// through on our WebSocket connection
-	//go Writter(ws)
-	reader(ws)
+	client.Read()
 }
