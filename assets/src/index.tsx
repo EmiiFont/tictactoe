@@ -5,6 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import SingleGame from "./pages/single-game";
+import Multiplayer from "./pages/multi-player";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -15,6 +16,7 @@ root.render(
       <Routes>
         <Route path="/" element={<App />}>
           <Route path="single" element={<SingleGame />}></Route>
+          <Route path="multiplayer" element={<Multiplayer />}></Route>
           <Route
             path="*"
             element={
