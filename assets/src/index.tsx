@@ -1,11 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import SingleGame from "./pages/single-game";
 import Multiplayer from "./pages/multi-player";
+import Layout from "./components/layout";
+import App from "./App";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -14,7 +15,8 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<App />}>
+        <Route element={<Layout />}>
+          <Route path="/" element={<App />}></Route>
           <Route path="single" element={<SingleGame />}></Route>
           <Route path="multiplayer" element={<Multiplayer />}></Route>
           <Route
