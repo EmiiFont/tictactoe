@@ -8,7 +8,7 @@ type WinPositions struct {
 	Positions [3][2]int32 `json:"positions"`
 }
 
-func CheckWinner(board [3][3]int32) WinPositions {
+func checkWinner(board [3][3]int32) WinPositions {
 	// check winner for rows
 	var winPositions WinPositions
 	winPositions.Winner = '_'
@@ -75,7 +75,7 @@ func CheckWinner(board [3][3]int32) WinPositions {
 	return winPositions
 }
 
-func MoveLeft(board [3][3]rune, winner rune) bool {
+func movesLeft(board [3][3]rune, winner rune) bool {
 	if winner != '_' {
 		return false
 	}

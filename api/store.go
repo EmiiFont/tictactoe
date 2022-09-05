@@ -7,7 +7,7 @@ import (
 	"log"
 )
 
-func StoreMove(playerMove *PlayerMove) [3][3]rune {
+func storeMove(playerMove *PlayerMove) [3][3]rune {
 	db, err := bolt.Open("boards.db", 0600, nil)
 	if err != nil {
 		log.Fatal(err)
@@ -52,7 +52,7 @@ func StoreMove(playerMove *PlayerMove) [3][3]rune {
 	return boardToSave
 }
 
-func DeleteBoard(key string) {
+func deleteBoard(key string) {
 	db, err := bolt.Open("boards.db", 0600, nil)
 	if err != nil {
 		log.Fatal(err)

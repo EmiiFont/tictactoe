@@ -42,3 +42,5 @@ export function board(props: any) {
     </table>
   );
 }
+
+export default board;

@@ -46,11 +46,11 @@ func ReceiveMove(w http.ResponseWriter, r *http.Request) {
 		fmt.Errorf("%f", err)
 		return
 	}
-	boardState := StoreMove(data)
-	winner := CheckWinner(boardState)
-	movesLeft := MoveLeft(boardState, winner.Winner)
+	boardState := storeMove(data)
+	winner := checkWinner(boardState)
+	movesLeft := movesLeft(boardState, winner.Winner)
 	if !movesLeft {
-		DeleteBoard(data.RoomId)
+		deleteBoard(data.RoomId)
 	}
 	uud, _ := uuid.Parse(data.RoomId)
 	var turn rune
